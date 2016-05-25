@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=0"/>
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <title>兼容pc端及移动端的事件绑定-针对移动端点透bug进行处理</title>
+    <style>
+        .touch{width:80%;height:38px;line-height:38px;background:#387aff;color:#fff;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;background-image:none;border:1px solid transparent;border-radius:4px;white-space:nowrap;text-align:center;font-size:14px;touch-action:manipulation;display:block;margin:0 auto 15px;-webkit-box-sizing:border-box;box-sizing:border-box;font-weight:bold;text-decoration: none;}
+        .touch:hover,.touch:focus,.touch.focus {color: #fff;}
+        .touch:active {background-color: #3058df;}
+        .normal{background:#f34949;}
+        .normal:active{background-color: #de3131;}
+        .cover{width:80%;height:120px;line-height:120px;text-align: center;background:#fff;border-radius:4px;border:1px #ccc solid;position:absolute;top:5px;left:50%;margin:0 0 0 -40%;display:none;}
+        .transparent{opacity:0;}
+    </style>
+</head>
+<body>
+    <a href="javascript:void(0);" id="touchend" class="touch">解决点透</a>
+    <a href="javascript:void(0);" id="touchnormal" class="touch normal">移除事件</a>
+    <div class="cover transparent" id="cover">
+        我是遮罩层
+    </div>
+</body>
+<script type="text/javascript" src="js/zepto.min.js"></script>
+<script type="text/javascript" src="js/Event.min.js"></script>
+<script type="text/javascript">
+    $(function(){
+        var $touchn = $('#touchnormal')[0];
+        var touchHandle = function(){
+            $('#cover').show().animate({
+                opacity:1
+            }, 200, 'ease-out');
+            Event.removeEvent($touchn,'end',touchHandle);
+        }
+
+        //解决点透
+        Event.addEvent($('#touchend')[0],'end',touchHandle,true);
+
+        //部分机器会触发点透
+        Event.addEvent($('#cover')[0],'end',function(){
+            $('#cover').animate({
+                opacity:0
+            }, {
+                duration:200,
+                easing:'ease-out',
+                complete:function(){
+                    $(this).hide();
+                }
+            });
+        });
+
+        //支持移除的普通绑定事件
+        Event.addEvent($touchn,'end',touchHandle);
+    })
+</script>
+</html>
