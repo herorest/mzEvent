@@ -22,10 +22,9 @@
         我是遮罩层
     </div>
 </body>
-<script type="text/javascript" src="js/zepto.min.js"></script>
-<script type="text/javascript" src="js/Event.min.js"></script>
+<script type="text/javascript" src="require.js"></script>
 <script type="text/javascript">
-    $(function(){
+    require(['src/Event.js','js/zepto.min.js'], function(Event) {
         var $touchn = $('#touchnormal')[0];
         var touchHandle = function(){
             $('#cover').show().animate({
@@ -52,6 +51,6 @@
 
         //支持移除的普通绑定事件
         Event.addEvent($touchn,'end',touchHandle);
-    })
+    });
 </script>
 </html>

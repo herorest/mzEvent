@@ -9,13 +9,13 @@
     "use strict";
     if (typeof define === 'function' && define.amd) {
         //AMD.
-        define(['zepto'], factory);
+        define(factory);
     } else if (typeof exports === 'object') {
         //CMD.
-        module.exports = factory(require('zepto'));
+        module.exports = factory();
     } else {
         // Browser globals (root is window)
-        root.client = factory(root.Zepto);
+        root.client = factory();
     }
 }(this, function() {
     var browser = {

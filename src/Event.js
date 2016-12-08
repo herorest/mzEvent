@@ -9,15 +9,15 @@
      "use strict";
      if (typeof define === 'function' && define.amd) {
          //AMD.
-         define(['zepto'], factory);
+         define(['./Browser'], factory);
      } else if (typeof exports === 'object') {
          //CMD.
-         module.exports = factory(require('zepto'));
+         module.exports = factory(require('./Browser'));
      } else {
          // Browser globals (root is window)
-         root.Event = factory(root.Zepto);
+         root.Event = factory(root.Browser);
      }
- }(this, function() {
+ }(this, function(client) {
 	var Event = {
 		touchtype : function(type){
 			switch(type){
